@@ -84,6 +84,23 @@ kill "$(cat ~/.makefun/record-roblox-brainrot-01.pid)"
 #    (di mesin & shell environment yang sama).
 ```
 
+## Hasil seal recording ini (ditulis setelah recording dihentikan)
+
+- Recording `01a1ea13-7b1d-77be-b465-ff6684db2bc6` **SEALED** pada
+  `2026-11-17T15:18:31.802Z`: 30 chunk, 1846 leaves,
+  head `3c2f80faa7d4934c130283d3cafbb8b8f9cb5e0d24cdc1f191f2363f7488395b`.
+  Receipt tersimpan di `~/.makefun/recordings.json`.
+- **Tapi TIDAK BISA dipakai untuk submit.** Pesan seal:
+  *"cannot enter: no session is left to enter: all 2 sessions the seal
+  found began before the recording and were left out"* — kedua sesi
+  (sesi builder ini, pesan pertama `15:08:14Z`, dan sesi parent,
+  `15:07:36Z`) dimulai sebelum recording jalan. Ditambah warning usage:
+  1 baris usage menamai agent yang sesinya tidak ikut dibundel.
+- Perintah `record --finish` sudah dijalankan; tidak ada lagi yang bisa
+  diperbaiki pada recording ini. **Jangan submit dengan id ini** —
+  `submit` akan menolaknya sebelum mengunggah apa pun.
+- Jadi langkah "Cara mengulang record dengan benar" di atas tetap wajib.
+
 ## Check & submit (submit HANYA dengan persetujuan eksplisit Seto)
 
 ```bash
