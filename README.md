@@ -1,88 +1,127 @@
-# 🧠 Brainrot Heist
+[![make.fun · roblox-brainrot-01](https://make.fun/badge/roblox-brainrot-01.svg)](https://make.fun/bounty/roblox-brainrot-01?utm_source=github&utm_medium=readme&utm_campaign=roblox-brainrot-01)
+[![rank](https://make.fun/badge/roblox-brainrot-01/fayenggg372-cmd/roblox-brainrot-01/rank.svg)](https://make.fun/bounty/roblox-brainrot-01/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=roblox-brainrot-01)
+[![reward](https://make.fun/badge/roblox-brainrot-01/fayenggg372-cmd/roblox-brainrot-01/reward.svg)](https://make.fun/bounty/roblox-brainrot-01?utm_source=github&utm_medium=readme&utm_campaign=roblox-brainrot-01)
 
-[![make.fun](https://make.fun/badge/roblox-brainrot-01.svg)](https://make.fun/bounty/roblox-brainrot-01)
-[![rank](https://make.fun/badge/roblox-brainrot-01/{owner}/{repo}/rank.svg)](https://make.fun/bounty/roblox-brainrot-01)
-[![reward](https://make.fun/badge/roblox-brainrot-01/{owner}/{repo}/reward.svg)](https://make.fun/bounty/roblox-brainrot-01)
+# Brainrot Heist
 
-> **Ganti `{owner}` dan `{repo}` di badge di atas dengan owner/repo GitHub kamu sebelum submit** — check `makefun` menolak placeholder di URL badge.
+A 3D Steal-a-Brainrot game for Roblox, built for the
+[make.fun roblox-brainrot-01 bounty](https://make.fun/bounty/roblox-brainrot-01).
 
-**Brainrot Heist** — game Roblox brainrot 3D bergenre *Steal a Brainrot*: brainrot absurd berjalan di conveyor, kamu beli sebelum sampai gerbang, mereka berdiri di basemu dan menghasilkan $ setiap detik, sambil kamu mencuri dari base orang lain, mengunci basemu, dan lari pulang saat tsunami brainrot menyapu map. Rebirth untuk pengali income permanen.
+Brainrots ride a conveyor across the north side of the map. Buy one before
+it reaches the east gate and it moves to your base, where it earns you cash
+every second based on its rarity. Grow rich, lock your base, steal from
+rivals — and survive the tsunami.
 
-## Cara main
+## Features
 
-1. **Beli brainrot** — brainrot berjalan di conveyor utara. Klik **BUY** di panel kiri, atau tahan **E** di dekatnya. Kalau sudah sampai gerbang timur, dia hilang.
-2. **Kumpulkan $** — brainrot di basemu menghasilkan $/detik sesuai raritasnya. Makin langka makin kaya.
-3. **Mutasi** — Gold (x2), Diamond (x5), Rainbow (x10). Sambar kalau muncul.
-4. **Mencuri** — tahan **E** pada brainrot di base orang lain (yang tidak terkunci), bawa pulang ke basemu. Kamu jalan lebih lambat sambil membawa curian.
-5. **Kunci base** — tombol 🔒 Lock Base (45 detik, cooldown 90 detik, bayar $1.000 — naik $1.000 per rebirth).
-6. **Tsunami** — tiap ~2 menit ada peringatan 10 detik, lalu ombak menyapu map dari utara ke selatan. Di luar base = terlempar ke spawn dan curianmu jatuh.
-7. **Rebirth** — butuh $50.000 x 2^rebirth, reset uang + brainrot, income permanen +50% per rebirth.
-8. **Upgrade** — Speed, Slots (+2 slot base), Income (+25%). Jual brainrot kapan saja untuk setengah harga belinya (lewat RemoteEvent `SellBrainrot`).
+- **Conveyor shop:** 19 brainrots in 7 rarities, from Common to Secret.
+- **Mutations:** Gold (x2 income), Diamond (x5), Rainbow (x10).
+- **Stealing:** press E near a rival's brainrot to grab it — but carrying
+  stolen goods slows you down, and the owner can catch you.
+- **Lock Base:** lock your base for 45 seconds (90s cooldown) for $1,000,
+  +$1,000 more per rebirth.
+- **Tsunami:** every ~2 minutes a wave sweeps the map north to south after a
+  10-second warning. Anyone outside their base is thrown back to spawn and
+  drops whatever they were carrying.
+- **Rebirth:** costs $50,000 x 2^rebirth. Resets your cash and brainrots but
+  gives a permanent +50% income per rebirth.
+- **Upgrades:** Speed, Slots (+2 base slots), and Income (+25%).
+- **Selling:** sell any brainrot for half its buy price.
+- **Heist Contracts:** 9 session quests (buying, selling, locking, rebirthing,
+  upgrading, holding cash, earning income) that pay cash rewards when claimed.
+  Progress resets when you leave the game.
+- **Brainrot Fusion:** fuse 3 brainrots of the same rarity into 1 random
+  brainrot of the next rarity up. Secret brainrots cannot be fused.
 
-## Para brainrot (19 karakter)
+## How to play
 
-| Raritas | Karakter |
-|---|---|
-| Common | Noobini Pizzanini, Tung Tung Tung Sahur, Chimpanzini Bananini |
-| Rare | Tralalero Tralala, Brr Brr Patapim, Lirili Larila |
-| Epic | Bombardiro Crocodilo, Ballerina Cappuccina, Trippi Troppi |
-| Legendary | Cappuccino Assassino, La Vaca Saturno Saturnita, Frigo Camelo |
-| Mythic | Boneca Ambalabu, Giraffa Celeste, Matteo the Menace |
-| Brainrot God | Los Tralaleritos, Las Tralaleritas |
-| Secret | Garama & Madundung, Pot Hotspot |
+1. **Buy:** click a brainrot on the conveyor before it reaches the east gate.
+2. **Collect:** brainrots on your base earn $ every second — rarer ones earn more.
+3. **Mutations:** watch for Gold, Diamond, and Rainbow brainrots; they multiply income.
+4. **Steal:** press E near a rival's brainrot to steal it, then run home before
+   they catch you (you walk slower while carrying).
+5. **Lock your base:** spend $1,000 to lock it for 45 seconds when thieves are near.
+6. **Survive the tsunami:** when the warning sounds, get inside your base or
+   lose what you are carrying.
+7. **Rebirth:** once you can afford $50,000 x 2^rebirth, reset for a permanent
+   +50% income boost.
+8. **Upgrade:** spend cash on Speed, extra Slots, and Income boosts.
+9. **Contracts:** open the Contracts panel, finish quests, and claim cash rewards.
+10. **Fusion:** open the Fusion panel, pick 3 slots of the same rarity, and fuse
+    them into a stronger brainrot.
 
-## Buka di Roblox Studio (Windows / macOS)
+## Brainrots
 
-Roblox Studio tidak ada versi Linux, jadi langkah ini harus di komputer Windows/Mac:
+- **Common:** Noobini Pizzanini, Tung Tung Tung Sahur, Chimpanzini Bananini
+- **Rare:** Tralalero Tralala, Brr Brr Patapim, Lirili Larila
+- **Epic:** Bombardiro Crocodilo, Ballerina Cappuccina, Trippi Troppi
+- **Legendary:** Cappuccino Assassino, La Vaca Saturno Saturnita, Frigo Camelo
+- **Mythic:** Boneca Ambalabu, Giraffa Celeste, Matteo the Menace
+- **Brainrot God:** Los Tralaleritos, Las Tralaleritas
+- **Secret:** Garama & Madundung, Pot Hotspot
 
-```bash
-# 1. Build place dari source (butuh Rojo 7.7+)
+## Opening in Roblox Studio
+
+1. Install [Rojo](https://rojo.space/) (7.7.1 or newer).
+2. Clone this repo and run `rojo build default.project.json --output game.rbxl`.
+3. Open `game.rbxl` in Roblox Studio.
+4. Press Play to test solo, or publish the place to play with friends.
+
+## Code structure
+
+- `src/shared/Config.luau` — tuning numbers (prices, timers, multipliers).
+- `src/shared/BrainrotData.luau` — catalog of all 19 brainrots.
+- `src/shared/Format.luau` — money and time formatting.
+- `src/server/init.server.luau` — bootstrap: builds the world, starts services.
+- `src/server/WorldBuilder.luau` — builds the map, bases, and conveyor.
+- `src/server/BrainrotService.luau` — buying, selling, income, placing brainrots.
+- `src/server/StealService.luau` — stealing, carrying, locking bases.
+- `src/server/EventService.luau` — tsunami events.
+- `src/server/PlayerData.luau` — player records, cash, rebirths, upgrades.
+- `src/server/QuestService.luau` — Heist Contracts (session quests + rewards).
+- `src/server/FusionService.luau` — Brainrot Fusion (3 same-rarity -> 1 higher).
+- `src/client/Game.client.luau` — main HUD.
+- `src/client/Quests.client.luau` — Contracts panel UI.
+- `src/client/Fusion.client.luau` — Fusion panel UI.
+
+## Tips for new players
+
+- Buy cheap Commons early: even a small income stream beats an empty base.
+- Save your first $1,000 for a base lock before you start stealing — revenge
+  thefts are the most common way to lose a good brainrot.
+- Watch the conveyor, not the shop: rare brainrots appear without warning and
+  despawn at the east gate, so be ready to click fast.
+- Fuse your duplicate Commons and Rares instead of selling them: a fused
+  Epic earns far more than the half-price sale of three Commons.
+- Claim contract rewards as soon as they complete — the cash can fund your
+  next rebirth or upgrade immediately.
+- During a tsunami warning, stop chasing steals and get inside your base.
+
+## Development
+
+```sh
+# Build the place file
 rojo build default.project.json --output game.rbxl
 
-# 2. Buka game.rbxl di Roblox Studio
-# 3. Play (F5) untuk playtest, ambil screenshot, lalu publish:
-#    File > Publish to Roblox As... > buat experience baru
-# 4. Di Creator Dashboard: isi deskripsi (tambah play code make.fun),
-#    genre, jawab content questionnaire, set Public
-# 5. Upload icon (512x512) + thumbnail (salah satu file screenshots/)
-# 6. Isi PLAY.json dengan place_id & universe_id dari experience itu
+# Live-sync into Studio while editing
+rojo serve default.project.json
 ```
 
-## Struktur kode (Luau)
+The project uses Rojo to sync `src/` into the place. Server scripts live in
+`src/server`, client scripts in `src/client`, and shared modules in
+`src/shared`. The entry point is `main.ts`, which bundles the place file,
+sources, screenshots, and `PLAY.json` into the submission output.
 
-```
-default.project.json   Rojo project: DataModel, Workspace, ReplicatedStorage, Server, Client
-main.ts                Program entry: copy game.rbxl, src/, screenshots/, PLAY.json ke /output + dossier.json
-vendor/makefun-roblox.ts  Library make.fun (tidak diubah)
-src/shared/
-  Config.luau          Semua angka tuning + warna raritas + layout base
-  BrainrotData.luau    Katalog 19 brainrot + bobot spawn per raritas
-  Format.luau          Format uang ($1.50K) & waktu (1:30)
-src/server/
-  init.server.luau     Bootstrap: RemoteEvents, wiring service, Rebirth, Upgrades, join/leave, autosave
-  WorldBuilder.luau    Membangun map 3D: conveyor, 4 base plot, dinding, pohon, lampu, title arch
-  BrainrotService.luau Spawn di conveyor, model NPC dari parts, beli, taruh di base, income tiap detik
-  StealService.luau    Mencuri, membawa curian, lock base
-  EventService.luau    Event tsunami berkala
-  PlayerData.luau      Data pemain + DataStore (save/load, fallback in-memory)
-src/client/
-  Game.client.luau     HUD: top bar, panel belt + tombol BUY, Lock/Rebirth/Upgrades/Help, banner tsunami, notifikasi
-screenshots/           3 concept render (lihat catatan jujur di bawah)
-PLAY.json              Play link experience (diisi setelah publish; saat ini masih 0)
-TOUR.json              Tour opsional untuk reviewer
-```
+## Status & to do
 
-## Status & yang masih harus dilakukan sebelum submit
+- [x] Core loop: conveyor, buying, income, stealing, locking, tsunami, rebirth, upgrades.
+- [x] Heist Contracts (QuestService + Quests UI).
+- [x] Brainrot Fusion (FusionService + Fusion UI).
+- [ ] Publish the place from Roblox Studio (account owner).
+- [ ] Fill in `PLAY.json` with the real place/universe id.
+- [ ] Replace the concept screenshots with real captures from Roblox Studio.
+- [ ] Upload a game icon and thumbnail.
 
-⚠️ **Repo ini BELUM siap submit.** Yang sudah jadi: semua kode Luau (ditulis ulang seluruhnya di sesi terekam 18 Nov 2026, lihat `RECORDING.md`), `game.rbxl` hasil build Rojo 7.7.1, dan `main.ts` yang lolos jalan lokal. Yang masih kurang (butuh Seto / komputer Windows-Mac):
+## License
 
-- [ ] Publish experience dari Roblox Studio dengan akun Roblox yang sudah bisa publish (umur akun ≥ 2 hari, lolos age check), set **Public**
-- [ ] Isi `PLAY.json` dengan `place_id` & `universe_id` yang benar — saat ini masih placeholder 0/0, jadi `makefun check` gagal di `play_link` (satu-satunya fail yang diharapkan)
-- [ ] Ganti `screenshots/` dengan **3 tangkapan asli dari Roblox Studio** — file saat ini adalah *concept render* (gambar ilustrasi yang dibuat dari layout game), bukan tangkapan Studio, dan belum boleh dipakai untuk submit
-- [ ] Upload icon + thumbnail (salah satu screenshot) di Creator Dashboard, tunggu review Roblox
-- [ ] Buat repo GitHub publik (dibuat setelah bounty dibuka 2026-11-17T14:30:00Z), commit, isi `{owner}`/`{repo}` di badge README, set About repo (website make.fun + topic `makefun`)
-- [ ] Jalankan `node cli/makefun.mjs check --kit . --repo <repo>` sampai `play_link` lolos, lalu submit (lihat `RECORDING.md` untuk perintah lengkapnya)
-
-## Lisensi
-
-MIT — lihat `LICENSE`.
+MIT — see [LICENSE](LICENSE).
