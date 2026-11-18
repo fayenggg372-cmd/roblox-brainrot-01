@@ -1,9 +1,12 @@
 // main.ts -- Brainrot Heist entry program (Node 22, standard library only).
 // The game is this directory's Rojo project, built into game.rbxl with
-// `rojo build default.project.json --output game.rbxl`. This program hands
+// `rojo build default.project.json --output game.rbxl`. It includes the
+// Daily Heist Bonus: a 7-day login streak that pays cash up to a $10,000
+// day-7 jackpot (see src/server/DailyRewardsService.luau). This program hands
 // the game in: it copies game.rbxl, src/, screenshots/ and PLAY.json from
 // beside this file to /output and writes /output/dossier.json with the
-// vendored make.fun library (vendor/makefun-roblox.ts, unchanged).
+// vendored make.fun library (vendor/makefun-roblox.ts, unchanged). The src/
+// copy carries every system, including the Daily Heist Bonus sources.
 //
 // Every name under /output starts with a letter, a digit or _ and holds
 // only letters, digits, . _ and -: a file such as .gitkeep or .DS_Store

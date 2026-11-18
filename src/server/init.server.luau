@@ -18,6 +18,7 @@ local StealService = require(script:WaitForChild("StealService"))
 local EventService = require(script:WaitForChild("EventService"))
 local QuestService = require(script:WaitForChild("QuestService"))
 local FusionService = require(script:WaitForChild("FusionService"))
+local DailyRewardsService = require(script:WaitForChild("DailyRewardsService"))
 
 print("[Brainrot Heist] Server starting...")
 
@@ -49,6 +50,7 @@ StealService.init(world, remotes, BrainrotService)
 EventService.init(world, remotes, StealService)
 QuestService.init(world, remotes, BrainrotService, PlayerData)
 FusionService.init(world, remotes, BrainrotService, PlayerData)
+DailyRewardsService.init(world, remotes, PlayerData)
 
 -- Rebirth: wipe cash and brainrots, keep a permanent +50% income per rebirth.
 remotes.Rebirth.OnServerEvent:Connect(function(player)

@@ -32,6 +32,11 @@ rivals — and survive the tsunami.
   Progress resets when you leave the game.
 - **Brainrot Fusion:** fuse 3 brainrots of the same rarity into 1 random
   brainrot of the next rarity up. Secret brainrots cannot be fused.
+- **Daily Heist Bonus:** log in every day to grow a login streak on a 7-day
+  cycle — cash climbs from $500 on day 1 to a $10,000 jackpot on day 7.
+  Miss a day and the streak resets to day 1. Claims are validated on the
+  server (one per UTC day) and streaks are saved in a DataStore with an
+  in-memory fallback.
 
 ## How to play
 
@@ -79,7 +84,10 @@ rivals — and survive the tsunami.
 - `src/server/EventService.luau` — tsunami events.
 - `src/server/PlayerData.luau` — player records, cash, rebirths, upgrades.
 - `src/server/QuestService.luau` — Heist Contracts (session quests + rewards).
-- `src/server/FusionService.luau` — Brainrot Fusion (3 same-rarity -> 1 higher).
+- `src/server/DailyRewardsService.luau` — Daily Heist Bonus (7-day login
+  streak, server-validated claims, DataStore persistence).
+- `src/shared/DailyRewardsData.luau` — daily reward ladder (cash + labels).
+- `src/client/DailyRewards.client.luau` — Daily Bonus panel UI.
 - `src/client/Game.client.luau` — main HUD.
 - `src/client/Quests.client.luau` — Contracts panel UI.
 - `src/client/Fusion.client.luau` — Fusion panel UI.
