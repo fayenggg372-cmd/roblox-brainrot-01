@@ -1,6 +1,8 @@
 -- Config.luau -- one place for every tuning number of Brainrot Heist.
 -- Server and client both read this module, so a balance change here
--- changes the whole game at once.
+-- changes the whole game at once. Nothing here is a secret: the client
+-- reads the same numbers the server enforces, and the server re-checks
+-- every action instead of trusting the client's copy.
 
 local Config = {}
 
@@ -12,12 +14,15 @@ Config.CONVEYOR_Z = -62
 Config.CONVEYOR_Y = 2.5
 Config.BRAINROT_WALK_SPEED = 7
 Config.BRAINROT_SPAWN_INTERVAL = 4
+Config.CONVEYOR_MAX = 8 -- most brainrots on the belt at once
 Config.INCOME_TICK_SECONDS = 1
+Config.AUTOSAVE_SECONDS = 60
+Config.SELL_REFUND_FRACTION = 0.5 -- selling returns half the buy cost
 
 -- Stealing: how long a lock lasts, how long before it can be used again.
 Config.LOCK_DURATION = 45
 Config.LOCK_COOLDOWN = 90
-Config.LOCK_BASE_COST = 1000
+Config.LOCK_BASE_COST = 1000 -- +1000 per rebirth (see StealService.lockBase)
 -- A stolen brainrot is carried; the carrier walks slower while carrying.
 Config.CARRY_SPEED_MULTIPLIER = 0.75
 

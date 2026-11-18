@@ -3,6 +3,8 @@
 -- it becomes theirs when they reach their own plot. Locked bases cannot
 -- be stolen from; the carrier walks slower; dying, resetting or getting
 -- caught by the tsunami drops the catch back to its owner.
+-- Save rows are matched by pedestal slot, so stealing one of two copies
+-- of the same character never deletes the wrong save row.
 
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
@@ -64,7 +66,7 @@ function StealService.trySteal(thief, owner, entry)
 		end
 	end
 	for i, e in ipairs(ownerRecord.owned) do
-		if e.defId == entry.def.id then
+		if e.slot == entry.slot then
 			table.remove(ownerRecord.owned, i)
 			break
 		end
@@ -79,6 +81,8 @@ function StealService.trySteal(thief, owner, entry)
 end
 
 -- Drop the catch: it walks back to its owner's base as if bought again.
+-- If the owner's base is somehow full by then, the brainrot is lost but
+-- the owner is told so instead of it vanishing silently.
 function StealService.dropCarried(player, announce)
 	local carry = StealService.carried[player.UserId]
 	if not carry then return end
@@ -92,9 +96,13 @@ function StealService.dropCarried(player, announce)
 	end
 	local owner = carry.fromPlayer
 	if owner and owner.Parent then
-		brainrotService.placeOnBase(owner, carry.entry.def, carry.entry.mutation)
-		if announce then
-			remotes.Notify:FireClient(player, "You dropped " .. carry.entry.def.name .. " — it ran home!")
+		local placed = brainrotService.placeOnBase(owner, carry.entry.def, carry.entry.mutation)
+		if placed then
+			if announce then
+				remotes.Notify:FireClient(player, "You dropped " .. carry.entry.def.name .. " — it ran home!")
+			end
+		else
+			remotes.Notify:FireClient(owner, carry.entry.def.name .. " could not return — your base is full!")
 		end
 	end
 	if carry.model and carry.model.Parent then
@@ -107,7 +115,7 @@ function StealService.lockBase(player)
 	if not record then return false, "No player data" end
 	local now = os.time()
 	if now < record.lockCooldownUntil then
-		return false, "Lock recharging: " .. tostring(record.lockCooldownUntil - now) .. "s left"
+		return false, "Lock recharging: " .. Format.clock(record.lockCooldownUntil - now) .. " left"
 	end
 	local cost = Config.LOCK_BASE_COST * (record.rebirths + 1)
 	if record.cash < cost then

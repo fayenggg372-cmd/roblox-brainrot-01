@@ -3,6 +3,9 @@
 -- Layout: a conveyor belt across the north edge carries brainrots from
 -- west to east; four coloured base plots sit south of it; the spawn is
 -- at the south edge; trees and lamps dress the borders.
+-- Each base plot is walled on three sides; the south wall has a 10-stud
+-- gap in the middle where the lock gate hangs, so players can walk in
+-- and out of their own base without jumping the wall.
 
 local Config = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Config"))
 
@@ -71,14 +74,17 @@ function WorldBuilder.build()
 		local plot = part(def.name .. "Plot", Vector3.new(30, 1, 22),
 			def.center, def.color, Enum.Material.SmoothPlastic, world)
 		plot.Transparency = 0.15
-		-- A low wall around the plot: the safe zone the tsunami cannot enter.
+		-- Low walls around the plot: the safe zone the tsunami cannot
+		-- enter. The south wall is split in two, leaving the middle
+		-- 10 studs open as the entrance (the lock gate hangs there).
 		local wallColor = def.color
 		part(def.name .. "WallN", Vector3.new(30, 3, 1), def.center + Vector3.new(0, 1.5, -11), wallColor, Enum.Material.SmoothPlastic, world)
-		part(def.name .. "WallS", Vector3.new(30, 3, 1), def.center + Vector3.new(0, 1.5, 11), wallColor, Enum.Material.SmoothPlastic, world)
+		part(def.name .. "WallSL", Vector3.new(10, 3, 1), def.center + Vector3.new(-10, 1.5, 11), wallColor, Enum.Material.SmoothPlastic, world)
+		part(def.name .. "WallSR", Vector3.new(10, 3, 1), def.center + Vector3.new(10, 1.5, 11), wallColor, Enum.Material.SmoothPlastic, world)
 		part(def.name .. "WallW", Vector3.new(1, 3, 22), def.center + Vector3.new(-15, 1.5, 0), wallColor, Enum.Material.SmoothPlastic, world)
 		part(def.name .. "WallE", Vector3.new(1, 3, 22), def.center + Vector3.new(15, 1.5, 0), wallColor, Enum.Material.SmoothPlastic, world)
-		-- A lock gate across the south entrance; EventService/StealService
-		-- tint it red while the base is locked.
+		-- A lock gate across the south entrance; StealService tints it
+		-- red while the base is locked.
 		local gate = part(def.name .. "Gate", Vector3.new(10, 4, 1),
 			def.center + Vector3.new(0, 2, 11), Color3.fromRGB(255, 255, 255),
 			Enum.Material.Neon, world)

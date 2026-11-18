@@ -2,6 +2,9 @@
 -- the brainrots standing on their base, and which base plot is theirs.
 -- Saved to a DataStore when Studio allows it (pcall: in a playtest with
 -- API access off, the game keeps playing with in-memory data only).
+-- Loaded saves are sanitised: a corrupt or tampered record can never
+-- hand a player negative cash, a negative rebirth count, or an upgrade
+-- level above the cap in Config.
 
 local DataStoreService = game:GetService("DataStoreService")
 local Config = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Config"))
@@ -36,6 +39,35 @@ function PlayerData.get(player)
 	return PlayerData._records[player.UserId]
 end
 
+-- Clamp a loaded save into the ranges the game can actually honour.
+local function sanitise(record)
+	if type(record.cash) ~= "number" or record.cash < 0 then
+		record.cash = Config.START_CASH
+	else
+		record.cash = math.floor(record.cash)
+	end
+	if type(record.rebirths) ~= "number" or record.rebirths < 0 then
+		record.rebirths = 0
+	else
+		record.rebirths = math.floor(record.rebirths)
+	end
+	if type(record.upgrades) ~= "table" then
+		record.upgrades = { Speed = 0, Slots = 0, Income = 0 }
+	else
+		for name, def in pairs(Config.UPGRADES) do
+			local level = record.upgrades[name]
+			if type(level) ~= "number" or level < 0 then
+				record.upgrades[name] = 0
+			else
+				record.upgrades[name] = math.min(math.floor(level), def.maxLevel)
+			end
+		end
+	end
+	if type(record.owned) ~= "table" then
+		record.owned = {}
+	end
+end
+
 function PlayerData.create(player, baseIndex)
 	local record = PlayerData.newRecord()
 	record.baseIndex = baseIndex
@@ -49,6 +81,7 @@ function PlayerData.create(player, baseIndex)
 			if type(saved.rebirths) == "number" then record.rebirths = saved.rebirths end
 			if type(saved.upgrades) == "table" then record.upgrades = saved.upgrades end
 			if type(saved.owned) == "table" then record.owned = saved.owned end
+			sanitise(record)
 		end
 	end
 	PlayerData._records[player.UserId] = record

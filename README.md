@@ -14,10 +14,10 @@
 2. **Kumpulkan $** — brainrot di basemu menghasilkan $/detik sesuai raritasnya. Makin langka makin kaya.
 3. **Mutasi** — Gold (x2), Diamond (x5), Rainbow (x10). Sambar kalau muncul.
 4. **Mencuri** — tahan **E** pada brainrot di base orang lain (yang tidak terkunci), bawa pulang ke basemu. Kamu jalan lebih lambat sambil membawa curian.
-5. **Kunci base** — tombol 🔒 Lock Base (45 detik, cooldown 90 detik, bayar $1.000).
+5. **Kunci base** — tombol 🔒 Lock Base (45 detik, cooldown 90 detik, bayar $1.000 — naik $1.000 per rebirth).
 6. **Tsunami** — tiap ~2 menit ada peringatan 10 detik, lalu ombak menyapu map dari utara ke selatan. Di luar base = terlempar ke spawn dan curianmu jatuh.
 7. **Rebirth** — butuh $50.000 x 2^rebirth, reset uang + brainrot, income permanen +50% per rebirth.
-8. **Upgrade** — Speed, Slots (+2 slot base), Income (+25%).
+8. **Upgrade** — Speed, Slots (+2 slot base), Income (+25%). Jual brainrot kapan saja untuk setengah harga belinya (lewat RemoteEvent `SellBrainrot`).
 
 ## Para brainrot (19 karakter)
 
@@ -67,21 +67,20 @@ src/server/
   PlayerData.luau      Data pemain + DataStore (save/load, fallback in-memory)
 src/client/
   Game.client.luau     HUD: top bar, panel belt + tombol BUY, Lock/Rebirth/Upgrades/Help, banner tsunami, notifikasi
-screenshots/           3 tangkapan game (lihat catatan di bawah)
+screenshots/           3 concept render (lihat catatan jujur di bawah)
 PLAY.json              Play link experience (diisi setelah publish; saat ini masih 0)
 TOUR.json              Tour opsional untuk reviewer
 ```
 
 ## Status & yang masih harus dilakukan sebelum submit
 
-⚠️ **Repo ini BELUM siap submit.** Yang sudah jadi: semua kode Luau, `game.rbxl` hasil build Rojo, dan `main.ts` yang lolos jalan lokal. Yang masih kurang (butuh Seto / komputer Windows-Mac):
+⚠️ **Repo ini BELUM siap submit.** Yang sudah jadi: semua kode Luau (ditulis ulang seluruhnya di sesi terekam 18 Nov 2026, lihat `RECORDING.md`), `game.rbxl` hasil build Rojo 7.7.1, dan `main.ts` yang lolos jalan lokal. Yang masih kurang (butuh Seto / komputer Windows-Mac):
 
 - [ ] Publish experience dari Roblox Studio dengan akun Roblox yang sudah bisa publish (umur akun ≥ 2 hari, lolos age check), set **Public**
-- [ ] Isi `PLAY.json` dengan `place_id` & `universe_id` yang benar
+- [ ] Isi `PLAY.json` dengan `place_id` & `universe_id` yang benar — saat ini masih placeholder 0/0, jadi `makefun check` gagal di `play_link` (satu-satunya fail yang diharapkan)
 - [ ] Ganti `screenshots/` dengan **3 tangkapan asli dari Roblox Studio** — file saat ini adalah *concept render* (gambar ilustrasi yang dibuat dari layout game), bukan tangkapan Studio, dan belum boleh dipakai untuk submit
 - [ ] Upload icon + thumbnail (salah satu screenshot) di Creator Dashboard, tunggu review Roblox
 - [ ] Buat repo GitHub publik (dibuat setelah bounty dibuka 2026-11-17T14:30:00Z), commit, isi `{owner}`/`{repo}` di badge README, set About repo (website make.fun + topic `makefun`)
-- [ ] **Recording**: build ini dibuat di sesi yang TIDAK terekam (record butuh login make.fun). Untuk entry yang valid, mulai `record` dulu, lalu buka sesi agent baru dan minta agent itu menulis ulang / mengedit file-file game di dalam sesi terekam tersebut — lihat `RECORDING.md`
 - [ ] Jalankan `node cli/makefun.mjs check --kit . --repo <repo>` sampai `play_link` lolos, lalu submit (lihat `RECORDING.md` untuk perintah lengkapnya)
 
 ## Lisensi

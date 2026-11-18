@@ -3,6 +3,9 @@
 -- can be stolen. It owns the conveyor list, the base placements and the
 -- income tick. Stealing itself lives in StealService, which init wires
 -- in through the onStealPrompt callback below (no circular require).
+-- Buying refunds the full price when placement fails, so a failed buy
+-- can never eat a player's cash; selling matches by pedestal slot, so
+-- two copies of the same character can never be confused.
 
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -284,10 +287,13 @@ function BrainrotService.removeOwned(player, entry)
 			end
 		end
 	end
+	-- Match by pedestal slot, not by character id: a player can own two
+	-- copies of the same brainrot, and removing by defId would delete
+	-- the wrong save row when the other copy is sold or stolen.
 	local record = PlayerData.get(player)
 	if record then
 		for i, e in ipairs(record.owned) do
-			if e.defId == entry.def.id then
+			if e.slot == entry.slot then
 				table.remove(record.owned, i)
 				break
 			end
@@ -313,6 +319,9 @@ function BrainrotService.buy(player, brainrotId)
 	local record = PlayerData.get(player)
 	if not record then
 		return false, "No player data"
+	end
+	if type(brainrotId) ~= "number" then
+		return false, "Bad brainrot id"
 	end
 	local found = nil
 	local foundIndex = nil
@@ -351,10 +360,17 @@ end
 function BrainrotService.sell(player, slot)
 	local record = PlayerData.get(player)
 	if not record then return false, "No player data" end
+	if type(slot) ~= "number" then return false, "Bad slot" end
 	local ownedList = BrainrotService.owned[player.UserId] or {}
-	local entry = ownedList[slot]
+	local entry = nil
+	for _, e in ipairs(ownedList) do
+		if e.slot == slot then
+			entry = e
+			break
+		end
+	end
 	if not entry then return false, "Nothing in that slot" end
-	local refund = math.floor(entry.def.cost / 2)
+	local refund = math.floor(entry.def.cost * Config.SELL_REFUND_FRACTION)
 	record.cash = record.cash + refund
 	BrainrotService.removeOwned(player, entry)
 	remotes.Notify:FireClient(player, "Sold " .. entry.def.name .. " for " .. Format.money(refund))
@@ -437,7 +453,7 @@ function BrainrotService.init(worldRef, remotesRef)
 	task.spawn(function()
 		while true do
 			task.wait(Config.BRAINROT_SPAWN_INTERVAL)
-			if #BrainrotService.conveyor < 8 then
+			if #BrainrotService.conveyor < Config.CONVEYOR_MAX then
 				spawnBrainrot()
 			end
 		end

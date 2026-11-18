@@ -6,6 +6,9 @@
 -- Right: Lock, Rebirth, Upgrades, Help. Centre: tsunami banner and
 -- notifications. Nothing here changes state: every button fires a
 -- RemoteEvent and the server validates it.
+-- Belt rows are de-duplicated by brainrot id, and the notification stack
+-- keeps at most 4 messages, so a burst of server messages can never
+-- flood the screen.
 
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -91,6 +94,13 @@ beltLayout.Parent = beltList
 
 local beltRows = {}
 local function beltRow(data)
+	-- A re-sent "add" for the same id replaces the old row instead of
+	-- stacking a duplicate on top of it.
+	local old = beltRows[data.id]
+	if old then
+		old:Destroy()
+		beltRows[data.id] = nil
+	end
 	local row = Instance.new("Frame")
 	row.Name = "BeltRow" .. data.id
 	row.Size = UDim2.new(1, -6, 0, 56)
@@ -224,7 +234,8 @@ local banner = label(gui, "EventBanner", "", UDim2.new(0, 520, 0, 52), UDim2.new
 banner.BackgroundTransparency = 0.2
 banner.Visible = false
 
--- Notifications stack, bottom centre.
+-- Notifications stack, bottom centre. At most 4 messages at once: the
+-- oldest one is dropped when a fifth arrives.
 local notifFrame = Instance.new("Frame")
 notifFrame.Name = "Notifications"
 notifFrame.AnchorPoint = Vector2.new(0.5, 1)
@@ -239,6 +250,17 @@ notifLayout.Parent = notifFrame
 
 local function notify(text)
 	local n = label(notifFrame, "Notif", text, UDim2.new(1, 0, 0, 28), UDim2.new(0, 0, 0, 0), Color3.fromRGB(255, 255, 255))
+	local children = notifFrame:GetChildren()
+	local labels = {}
+	for _, child in ipairs(children) do
+		if child:IsA("TextLabel") then
+			table.insert(labels, child)
+		end
+	end
+	while #labels > 4 do
+		labels[1]:Destroy()
+		table.remove(labels, 1)
+	end
 	task.delay(4, function()
 		if n then
 			n:Destroy()

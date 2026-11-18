@@ -79,6 +79,13 @@ BrainrotData.RARITY_WEIGHTS = {
 	Secret = 0.8,
 }
 
+-- Fixed roll order: `pairs` over the weights table has no defined order,
+-- so the roll walks this list instead — same probabilities, but the
+-- result no longer depends on hash iteration order.
+BrainrotData.RARITY_ORDER = {
+	"Common", "Rare", "Epic", "Legendary", "Mythic", "Brainrot God", "Secret",
+}
+
 function BrainrotData.byId(id)
 	for _, def in ipairs(BrainrotData.CATALOG) do
 		if def.id == id then
@@ -106,8 +113,8 @@ function BrainrotData.roll()
 	end
 	local roll = math.random() * total
 	local picked = "Common"
-	for rarity, w in pairs(BrainrotData.RARITY_WEIGHTS) do
-		roll = roll - w
+	for _, rarity in ipairs(BrainrotData.RARITY_ORDER) do
+		roll = roll - (BrainrotData.RARITY_WEIGHTS[rarity] or 0)
 		if roll <= 0 then
 			picked = rarity
 			break

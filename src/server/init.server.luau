@@ -3,6 +3,8 @@
 -- player a base plot, and wires the services together:
 --   WorldBuilder -> BrainrotService -> StealService -> EventService
 -- Rebirth and upgrades are handled here, next to the economy they touch.
+-- A rebirth also drops anything the player was carrying, so a stolen
+-- brainrot cannot survive the reset that wipes the owner's base.
 
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -53,6 +55,7 @@ remotes.Rebirth.OnServerEvent:Connect(function(player)
 		remotes.Notify:FireClient(player, "Rebirth needs " .. Format.money(cost) .. " cash!")
 		return
 	end
+	StealService.dropCarried(player, false)
 	for _, entry in ipairs(BrainrotService.owned[player.UserId] or {}) do
 		if entry.model then
 			entry.model:Destroy()
@@ -71,6 +74,7 @@ end)
 remotes.BuyUpgrade.OnServerEvent:Connect(function(player, upgradeName)
 	local record = PlayerData.get(player)
 	if not record then return end
+	if type(upgradeName) ~= "string" then return end
 	local def = Config.UPGRADES[upgradeName]
 	if not def then return end
 	local level = record.upgrades[upgradeName] or 0
@@ -95,16 +99,21 @@ remotes.BuyUpgrade.OnServerEvent:Connect(function(player, upgradeName)
 	PlayerData.save(player)
 end)
 
--- Pick the least crowded base plot for a joining player.
+-- Pick the least crowded base plot for a joining player. Ties go to the
+-- lowest-numbered plot, so the first players spread out predictably.
 local function assignBase()
-	local counts = { 0, 0, 0, 0 }
+	local baseCount = #Config.BASES
+	local counts = {}
+	for i = 1, baseCount do
+		counts[i] = 0
+	end
 	for _, record in pairs(PlayerData._records) do
-		if record.baseIndex >= 1 and record.baseIndex <= 4 then
+		if record.baseIndex >= 1 and record.baseIndex <= baseCount then
 			counts[record.baseIndex] = counts[record.baseIndex] + 1
 		end
 	end
 	local best = 1
-	for i = 2, 4 do
+	for i = 2, baseCount do
 		if counts[i] < counts[best] then
 			best = i
 		end
@@ -151,10 +160,10 @@ for _, player in ipairs(Players:GetPlayers()) do
 	task.spawn(onPlayerAdded, player)
 end
 
--- Autosave every 60 seconds, so a crash costs at most a minute.
+-- Autosave every AUTOSAVE_SECONDS, so a crash costs at most a minute.
 task.spawn(function()
 	while true do
-		task.wait(60)
+		task.wait(Config.AUTOSAVE_SECONDS)
 		for _, player in ipairs(Players:GetPlayers()) do
 			PlayerData.save(player)
 		end

@@ -2,6 +2,9 @@
 -- Every EVENT_INTERVAL seconds the server warns the map, then a giant
 -- wave sweeps north to south. Anyone caught outside their own base plot
 -- is washed back to spawn and drops whatever they were carrying.
+-- The wave crosses the whole map (z -120 to +130) at EVENT_WAVE_SPEED,
+-- so the sweep lasts about 9 seconds; the loop waits 10 to be sure the
+-- Heartbeat connection is gone before the wave part is destroyed.
 
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
@@ -76,7 +79,7 @@ function EventService.init(worldRef, remotesRef, stealServiceRef)
 				end
 			end)
 			task.wait(10)
-			if conn.Connected then
+			if conn and conn.Connected then
 				conn:Disconnect()
 			end
 			wave:Destroy()
